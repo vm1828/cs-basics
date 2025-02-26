@@ -78,15 +78,14 @@ def test_delete_first(ll_2_items):
 
 
 def test_delete_last(ll_2_items):
-    ...
-    # assert len(ll_2_items) == 2
-    # item_2 = ll_2_items[1]
-    # ll_2_items.delete_first()
-    # assert len(ll_2_items) == 1
-    # assert ll_2_items[0] == item_2
+    assert len(ll_2_items) == 2
+    item_1 = ll_2_items[0]
+    ll_2_items.delete_last()
+    assert len(ll_2_items) == 1
+    assert ll_2_items[0] == item_1
 
 
-def test_getter_setter(ll_2_items):
+def test_getter_setter(ll_2_items, ll_0_items):
     assert len(ll_2_items) == 2
     assert ll_2_items[0] != '1st'
     assert ll_2_items[1] != '2nd'
@@ -94,3 +93,24 @@ def test_getter_setter(ll_2_items):
     ll_2_items[1] = '2nd'
     assert ll_2_items[0] == '1st'
     assert ll_2_items[1] == '2nd'
+
+
+def test_insert_at(ll_2_items):
+    assert len(ll_2_items) == 2
+    item_1 = ll_2_items[0]
+    item_2 = ll_2_items[1]
+    ll_2_items.insert_at(1, 'New node')
+    assert len(ll_2_items) == 3
+    assert ll_2_items[0] == item_1
+    assert ll_2_items[1] == 'New node'
+    assert ll_2_items[2] == item_2
+
+
+def test_delete_at(ll_2_items):
+    assert len(ll_2_items) == 2
+    item_1 = ll_2_items[0]
+    ll_2_items.delete_at(1)
+    assert len(ll_2_items) == 1
+    assert ll_2_items[0] == item_1
+    ll_2_items.delete_at(0)
+    assert len(ll_2_items) == 0

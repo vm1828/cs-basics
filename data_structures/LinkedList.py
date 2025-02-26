@@ -20,58 +20,7 @@ class LinkedList:
     def __len__(self) -> int:
         return self._length
 
-    def insert_first(self, data):
-        new = Node(data)
-        if self.head is None:
-            self.tail = new
-        else:
-            new.next = self.head
-            self.head.previous = new
-        self.head = new
-        self._length += 1
-
-    def insert_last(self, data):
-        new = Node(data)
-        if self.tail is None:
-            self.head = new
-        else:
-            new.previous = self.tail
-            self.tail.next = new
-        self.tail = new
-        self._length += 1
-
-    def delete_first(self):
-        self.head = self.head.next
-        self.head.previous = None
-        self._length -= 1
-
-    def delete_last(self):
-        self.tail = self.tail.previous
-        self.tail.next = None
-        self._length -= 1
-
-    # def insert(self, idx, data):
-    #     new = Node(data)
-    #     if idx == 0:
-    #         self.insert_first(data)
-    #     elif idx == self._length - 1:
-    #         self.insert_last(data)
-    #     if idx > self._length - idx:
-    #         idx = self._length - idx
-    #         current = self.tail
-    #         for _ in range(idx):
-    #             current = current.previous
-
-    #     else:
-    #         current = self.head
-    #         for _ in range(id):
-    #             current = current.next
-
-    #     current = self.head
-    #     for _ in range(idx):
-    #         current = current.next
-
-    def __get_current(self, idx):
+    def __get_item(self, idx):
         if not isinstance(idx, int):
             raise TypeError("Not valid index")
         if idx >= self._length or idx < -self._length:
@@ -92,9 +41,70 @@ class LinkedList:
         return current
 
     def __getitem__(self, idx):
-        current = self.__get_current(idx)
+        current = self.__get_item(idx)
         return current.data
 
     def __setitem__(self, idx, data):
-        current = self.__get_current(idx)
+        current = self.__get_item(idx)
         current.data = data
+
+    def insert_first(self, data):
+        new = Node(data)
+        if self.head is None:
+            self.tail = new
+        else:
+            new.next = self.head
+            self.head.previous = new
+        self.head = new
+        self._length += 1
+
+    def insert_last(self, data):
+        new = Node(data)
+        if self.tail is None:
+            self.head = new
+        else:
+            new.previous = self.tail
+            self.tail.next = new
+        self.tail = new
+        self._length += 1
+
+    def insert_at(self, idx, data):
+        new = Node(data)
+        if idx == 0:
+            self.insert_first(data)
+        elif idx == self._length:
+            self.insert_last(data)
+
+        else:
+            previous = self.__get_item(idx-1)
+            next = previous.next
+            new.next == next
+            new.previous = previous
+            previous.next = new
+            next.previous = new
+        self._length += 1
+
+    def delete_first(self):
+        self.head = self.head.next
+        if self.head:
+            self.head.previous = None
+        self._length -= 1
+
+    def delete_last(self):
+        self.tail = self.tail.previous
+        if self.tail:
+            self.tail.next = None
+        self._length -= 1
+
+    def delete_at(self, idx):
+        if idx == 0:
+            self.delete_first()
+        elif idx == (self._length - 1):
+            self.delete_last()
+        else:
+            current = self.__get_item(idx)
+            previous = current.previous
+            next = current.next
+            previous.next = next
+            next.previous = previous
+            self._length -= 1
